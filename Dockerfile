@@ -8,7 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# 나머지 소스 복사 후 빌드
+# .env 파일과 나머지 소스 복사 후 빌드
+COPY .env ./
 COPY . .
 RUN npm run build
 

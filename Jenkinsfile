@@ -5,12 +5,32 @@ pipeline {
         IMAGE_NAME = "react-app"
         CONTAINER_NAME = "react-app-container"
         PORT = "80"
+        REACT_APP_API_BASE = credentials('REACT_APP_API_BASE')
     }
 
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Print Environment Variables') {
+            steps {
+                echo "🔧 환경 변수 설정:"
+                echo "REACT_APP_API_BASE: $REACT_APP_API_BASE"
+            }
+        }
+
+        stage('Create .env File') {
+            steps {
+                sh '''
+                cat > .env << EOF
+                REACT_APP_API_BASE=$REACT_APP_API_BASE
+                EOF
+                echo "✅ .env 파일 생성 완료:"
+                cat .env
+                '''
             }
         }
 
